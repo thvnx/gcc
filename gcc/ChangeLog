@@ -1,3 +1,20 @@
+2019-02-01  Laurent Thévenoux  <lrnt@thvnx.com>
+
+	* common.opt (flag_cx_accurate_limited_range): New variable.
+	* doc/invoke.texi (Optimization Options): Document new
+	-fcx-accurate-limited-range=style option.
+	* flag-types.h (enum cx_accurate_limited_range): New enum.
+	* tree-complex.c (some_onep, some_posp, new_def_is_negated): New
+	functions.
+	(expand_accurate_complex_multiplication): New function to gimplify
+	enhanced complex multiplication.
+	(expand_complex_multiplication): New complex multiplication
+	expansion selection.
+	(expand_accurate_complex_div_straight): New function to gimplify
+	enhanced complex division.
+	(expand_complex_division): New complex division expansion
+	selection.
+
 2019-02-01  Jan Hubicka  <hubicka@ucw.cz>
 
 	* parms.def (MAX_INLINE_INSNS_SINGLE): Reduce from 400 to 200.

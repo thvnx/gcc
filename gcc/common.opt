@@ -1170,6 +1170,22 @@ fcx-limited-range
 Common Report Var(flag_cx_limited_range) Optimization SetByCombined
 Omit range reduction step when performing complex division.
 
+fcx-accurate-limited-range=
+Common Joined RejectNegative Enum(cx_accurate_limited_range) Var(flag_cx_accurate_limited_range) Init(CX_ACCURATE_LIMITED_RANGE_OFF) Optimization
+-fcx-accurate-limited-range=[off|on|fast] Accurate fcx-limited-range operations.
+
+Enum
+Name(cx_accurate_limited_range) Type(enum cx_accurate_limited_range) UnknownError(unknown accurate cx-accurate-limited-range style %qs)
+
+EnumValue
+Enum(cx_accurate_limited_range) String(off) Value(CX_ACCURATE_LIMITED_RANGE_OFF)
+
+EnumValue
+Enum(cx_accurate_limited_range) String(on) Value(CX_ACCURATE_LIMITED_RANGE_ON)
+
+EnumValue
+Enum(cx_accurate_limited_range) String(fast) Value(CX_ACCURATE_LIMITED_RANGE_FAST)
+
 fcx-fortran-rules
 Common Report Var(flag_cx_fortran_rules) Optimization
 Complex multiplication and division follow Fortran rules.

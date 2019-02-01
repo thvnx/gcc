@@ -207,6 +207,13 @@ enum fp_contract_mode {
   FP_CONTRACT_FAST = 2
 };
 
+/* Accurate fcx-limited-range operation styles. */
+enum cx_accurate_limited_range {
+  CX_ACCURATE_LIMITED_RANGE_OFF = 0,
+  CX_ACCURATE_LIMITED_RANGE_ON = 1,
+  CX_ACCURATE_LIMITED_RANGE_FAST = 2
+};
+
 /* Scalar storage order kind.  */
 enum scalar_storage_order_kind {
   SSO_NATIVE = 0,
