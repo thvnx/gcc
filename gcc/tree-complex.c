@@ -1148,7 +1148,7 @@ expand_accurate_complex_multiplication (gimple_stmt_iterator *gsi,
 					tree inner_type, tree ar,
 					tree ai, tree br, tree bi)
 {
-  tree rr, ri;
+  tree rr=NULL, ri;
 
   /* Special case of multiplication by conjugate */
   if ( !flag_signed_zeros && (ar == br) &&
@@ -1186,7 +1186,7 @@ expand_accurate_complex_multiplication (gimple_stmt_iterator *gsi,
 	      {
 	      /* Alternative based on Kahan's 2x2 determinant
 		 (non-commutative) */
-	      tree p1r, ain, sr, p1rn, e1r;
+	      tree p1r, ain, sr=NULL, p1rn, e1r=NULL;
 	      p1r  = gimplify_build2 (gsi, MULT_EXPR, inner_type, ar, br);
 	      ain  = gimplify_build1 (gsi, NEGATE_EXPR, inner_type, ai);
 	      //sr   = gimplify_build3 (gsi, FMA_EXPR, inner_type, ain, bi, p1r);
@@ -1203,7 +1203,7 @@ expand_accurate_complex_multiplication (gimple_stmt_iterator *gsi,
 	      gimple_call_set_nothrow (ge1r, true);
 	      
 	      rr   = gimplify_build2 (gsi, PLUS_EXPR, inner_type, sr, e1r);
-	      tree p1i, si, p1in, e1i;
+	      tree p1i, si=NULL, p1in, e1i=NULL;
 	      p1i  = gimplify_build2 (gsi, MULT_EXPR, inner_type, ar, bi);
 	      //si   = gimplify_build3 (gsi, FMA_EXPR, inner_type, ai, br, p1i);
 
@@ -1226,7 +1226,7 @@ expand_accurate_complex_multiplication (gimple_stmt_iterator *gsi,
 	      {
 	      /* Alternative based on Cornea-Harrison-Tang's 2x2
 		 determinant (CHT) */
-		tree p1r, ain, sr, p1rn, e1r, p2r, p2rn, e2r, er;
+		tree p1r, ain, sr, p1rn, e1r=NULL, p2r, p2rn, e2r=NULL, er;
 	      p1r  = gimplify_build2 (gsi, MULT_EXPR, inner_type, ar, br);
 	      ain  = gimplify_build1 (gsi, NEGATE_EXPR, inner_type, ai);
 	      p2r  = gimplify_build2 (gsi, MULT_EXPR, inner_type, ain, bi);
@@ -1247,7 +1247,7 @@ expand_accurate_complex_multiplication (gimple_stmt_iterator *gsi,
 	      sr   = gimplify_build2 (gsi, PLUS_EXPR, inner_type, p1r, p2r);
 	      er   = gimplify_build2 (gsi, PLUS_EXPR, inner_type, e1r, e2r);
 	      rr   = gimplify_build2 (gsi, PLUS_EXPR, inner_type, sr, er);
-	      tree p1i, si, p1in, e1i, p2i, p2in, e2i, ei;
+	      tree p1i, si, p1in, e1i=NULL, p2i, p2in, e2i=NULL, ei;
 	      p1i  = gimplify_build2 (gsi, MULT_EXPR, inner_type, ar, bi);
 	      p2i  = gimplify_build2 (gsi, MULT_EXPR, inner_type, ai, br);
 	      p1in = gimplify_build1 (gsi, NEGATE_EXPR, inner_type, p1i);
@@ -1497,7 +1497,7 @@ expand_accurate_complex_div_straight (gimple_stmt_iterator *gsi,
   else
     {
       /* Alternative based on Kahan's 2x2 determinant */
-      tree p1r, sr, p1rn, e1r;
+      tree p1r, sr=NULL, p1rn, e1r=NULL;
       p1r  = gimplify_build2 (gsi, MULT_EXPR, inner_type, ar, br);
       //sr   = gimplify_build3 (gsi, FMA_EXPR, inner_type, ai, bi, p1r);
 
@@ -1513,7 +1513,7 @@ expand_accurate_complex_div_straight (gimple_stmt_iterator *gsi,
       gimple_call_set_nothrow (ge1r, true);
       
       mrr  = gimplify_build2 (gsi, PLUS_EXPR, inner_type, sr, e1r);
-      tree p1i, arn, si, p1in, e1i;
+      tree p1i, arn, si=NULL, p1in, e1i=NULL;
       p1i  = gimplify_build2 (gsi, MULT_EXPR, inner_type, ai, br);
       arn  = gimplify_build1 (gsi, NEGATE_EXPR, inner_type, ar);
       //si   = gimplify_build3 (gsi, FMA_EXPR, inner_type, arn, bi, p1i);
