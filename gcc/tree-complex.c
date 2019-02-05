@@ -1148,7 +1148,7 @@ expand_accurate_complex_multiplication (gimple_stmt_iterator *gsi,
 					tree inner_type, tree ar,
 					tree ai, tree br, tree bi)
 {
-  tree rr=NULL, ri;
+  tree rr, ri;
 
   /* Special case of multiplication by conjugate */
   if ( !flag_signed_zeros && (ar == br) &&
@@ -1156,12 +1156,7 @@ expand_accurate_complex_multiplication (gimple_stmt_iterator *gsi,
     {
       tree p1r;
       p1r = gimplify_build2 (gsi, MULT_EXPR, inner_type, ar, ar);
-      //rr  = gimplify_build3 (gsi, FMA_EXPR, inner_type, ai, ai, p1r);
-
-      gcall *g = gimple_build_call_internal (IFN_FMA, 3, ai, ai, p1r);
-      gimple_call_set_lhs (g, rr);
-      gimple_call_set_nothrow (g, true);
-      
+      rr  = gimplify_build_fma (gsi, /*inner_type,*/ ai, ai, p1r);
       ri  = build_real (inner_type, dconst0);
     }
   else

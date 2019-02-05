@@ -95,6 +95,8 @@ extern bool gimple_purge_dead_eh_edges (basic_block);
 extern bool gimple_purge_all_dead_eh_edges (const_bitmap);
 extern bool gimple_purge_dead_abnormal_call_edges (basic_block);
 extern bool gimple_purge_all_dead_abnormal_call_edges (const_bitmap);
+extern tree gimplify_build_fma (gimple_stmt_iterator *,
+				/*tree, */tree, tree, tree);
 extern tree gimplify_build3 (gimple_stmt_iterator *, enum tree_code,
 			     tree, tree, tree, tree);
 extern tree gimplify_build2 (gimple_stmt_iterator *, enum tree_code,
