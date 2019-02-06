@@ -9019,12 +9019,25 @@ gimplify_build_fma (gimple_stmt_iterator *gsi,
 		    /*tree type, */tree a, tree b, tree c)
 {
   tree ret;
-  //location_t loc = gimple_location (gsi_stmt (*gsi));
+  location_t loc = gimple_location (gsi_stmt (*gsi));
+
+  printf("before\n");
+  debug_tree(ret);
+  debug_tree(a);
+  debug_tree(b);
+  debug_tree(c);
 
   gcall *g = gimple_build_call_internal (IFN_FMA, 3, a, b, c);
-  ret = gimple_call_lhs(g);
+  //gimple_call_set_lhs (g, ret);
+  //ret = gimple_call_lhs(g);
   /* gimple_call_set_lhs (g, rr); */
   /* gimple_call_set_nothrow (g, true); */
+
+  gimple_set_location (g, loc);
+
+
+  printf("after\n");
+  debug_tree(ret);
   
   //ret = fold_build3_loc (loc, FMA_EXPR, type, a, b, c);
   return force_gimple_operand_gsi (gsi, ret, true, NULL, true,

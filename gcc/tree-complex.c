@@ -1181,37 +1181,45 @@ expand_accurate_complex_multiplication (gimple_stmt_iterator *gsi,
 	      {
 	      /* Alternative based on Kahan's 2x2 determinant
 		 (non-commutative) */
-	      tree p1r, ain, sr=NULL, p1rn, e1r=NULL;
+	      tree p1r, ain, sr, p1rn, e1r;
 	      p1r  = gimplify_build2 (gsi, MULT_EXPR, inner_type, ar, br);
 	      ain  = gimplify_build1 (gsi, NEGATE_EXPR, inner_type, ai);
 	      //sr   = gimplify_build3 (gsi, FMA_EXPR, inner_type, ain, bi, p1r);
 
-	      gcall *gsr = gimple_build_call_internal (IFN_FMA, 3, ain, bi, p1r);
-	      gimple_call_set_lhs (gsr, sr);
-	      gimple_call_set_nothrow (gsr, true);
+	      sr   = gimplify_build_fma (gsi, ain, bi, p1r);
+
+	      /* gcall *gsr = gimple_build_call_internal (IFN_FMA, 3, ain, bi, p1r); */
+	      /* gimple_call_set_lhs (gsr, sr); */
+	      /* gimple_call_set_nothrow (gsr, true); */
 	      
 	      p1rn = gimplify_build1 (gsi, NEGATE_EXPR, inner_type, p1r);
 	      //e1r  = gimplify_build3 (gsi, FMA_EXPR, inner_type, ar, br, p1rn);
 
-	      gcall *ge1r = gimple_build_call_internal (IFN_FMA, 3, ar, br, p1rn);
-	      gimple_call_set_lhs (ge1r, e1r);
-	      gimple_call_set_nothrow (ge1r, true);
-	      
+	      e1r  = gimplify_build_fma (gsi, ar, br, p1rn);
+
+	      /* gcall *ge1r = gimple_build_call_internal (IFN_FMA, 3, ar, br, p1rn); */
+	      /* gimple_call_set_lhs (ge1r, e1r); */
+	      /* gimple_call_set_nothrow (ge1r, true); */
+
 	      rr   = gimplify_build2 (gsi, PLUS_EXPR, inner_type, sr, e1r);
-	      tree p1i, si=NULL, p1in, e1i=NULL;
+	      tree p1i, si, p1in, e1i;
 	      p1i  = gimplify_build2 (gsi, MULT_EXPR, inner_type, ar, bi);
 	      //si   = gimplify_build3 (gsi, FMA_EXPR, inner_type, ai, br, p1i);
 
-	      gcall *ggsi = gimple_build_call_internal (IFN_FMA, 3, ai, br, p1i);
-	      gimple_call_set_lhs (ggsi, p1i);
-	      gimple_call_set_nothrow (ggsi, true);
+	      si   = gimplify_build_fma (gsi, ai, br, p1i);
+
+	      /* gcall *ggsi = gimple_build_call_internal (IFN_FMA, 3, ai, br, p1i); */
+	      /* gimple_call_set_lhs (ggsi, p1i); */
+	      /* gimple_call_set_nothrow (ggsi, true); */
 	      
 	      p1in = gimplify_build1 (gsi, NEGATE_EXPR, inner_type, p1i);
 	      //e1i  = gimplify_build3 (gsi, FMA_EXPR, inner_type, ar, bi, p1in);
 
-	      gcall *ge1i = gimple_build_call_internal (IFN_FMA, 3, ar, bi, p1in);
-	      gimple_call_set_lhs (ge1i, e1i);
-	      gimple_call_set_nothrow (ge1i, true);
+	      e1i  = gimplify_build_fma (gsi, ar, bi, p1in);
+
+	      /* gcall *ge1i = gimple_build_call_internal (IFN_FMA, 3, ar, bi, p1in); */
+	      /* gimple_call_set_lhs (ge1i, e1i); */
+	      /* gimple_call_set_nothrow (ge1i, true); */
 
 	      ri   = gimplify_build2 (gsi, PLUS_EXPR, inner_type, si, e1i);
 	      break;
@@ -1231,7 +1239,7 @@ expand_accurate_complex_multiplication (gimple_stmt_iterator *gsi,
 	      gcall *ge1r = gimple_build_call_internal (IFN_FMA, 3, ar, br, p1rn);
 	      gimple_call_set_lhs (ge1r, e1r);
 	      gimple_call_set_nothrow (ge1r, true);
-	      
+
 	      p2rn = gimplify_build1 (gsi, NEGATE_EXPR, inner_type, p2r);
 	      //e2r  = gimplify_build3 (gsi, FMA_EXPR, inner_type, ain, bi, p2rn);
 
@@ -1251,7 +1259,7 @@ expand_accurate_complex_multiplication (gimple_stmt_iterator *gsi,
 	      gcall *ge1i = gimple_build_call_internal (IFN_FMA, 3, ar, bi, p1in);
 	      gimple_call_set_lhs (ge1i, e1i);
 	      gimple_call_set_nothrow (ge1i, true);
-	      
+
 	      p2in = gimplify_build1 (gsi, NEGATE_EXPR, inner_type, p2i);
 	      //e2i  = gimplify_build3 (gsi, FMA_EXPR, inner_type, ai, br, p2in);
 
