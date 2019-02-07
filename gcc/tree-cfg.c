@@ -9033,11 +9033,17 @@ gimplify_build_fma (gimple_stmt_iterator *gsi,
   /* gimple_call_set_lhs (g, rr); */
   /* gimple_call_set_nothrow (g, true); */
 
+  debug(g);
+  
   gimple_set_location (g, loc);
-
+  
+  gimple_set_lhs (g, ret);
+  ret = gimple_get_lhs(g);
 
   printf("after\n");
   debug_tree(ret);
+
+  debug_tree(gimple_assign_rhs1(g));
   
   //ret = fold_build3_loc (loc, FMA_EXPR, type, a, b, c);
   return force_gimple_operand_gsi (gsi, ret, true, NULL, true,
