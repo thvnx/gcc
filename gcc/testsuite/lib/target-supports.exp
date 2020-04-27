@@ -3177,9 +3177,9 @@ proc check_effective_target_vect_int { } {
 proc check_effective_target_vect_intfloat_cvt { } {
     return [check_cached_effective_target_indexed vect_intfloat_cvt {
       expr { [istarget i?86-*-*] || [istarget x86_64-*-*]
-	     || [istarget kvx-*-*]
 	     || ([istarget powerpc*-*-*]
 		 && ![istarget powerpc-*-linux*paired*])
+  		 || [istarget kvx-*-*]
 	     || [is-effective-target arm_neon]
 	     || ([istarget mips*-*-*]
 		 && [et-is-effective-target mips_msa])
@@ -3242,9 +3242,9 @@ proc check_effective_target_int128 { } {
 proc check_effective_target_vect_uintfloat_cvt { } {
     return [check_cached_effective_target_indexed vect_uintfloat_cvt {
       expr { [istarget i?86-*-*] || [istarget x86_64-*-*]
-	     || [istarget kvx-*-*]
 	     || ([istarget powerpc*-*-*]
 		 && ![istarget powerpc-*-linux*paired*])
+	     || [istarget kvx-*-*]
 	     || [istarget aarch64*-*-*]
 	     || [is-effective-target arm_neon]
 	     || ([istarget mips*-*-*]
@@ -3261,6 +3261,7 @@ proc check_effective_target_vect_floatint_cvt { } {
       expr { [istarget i?86-*-*] || [istarget x86_64-*-*]
 	     || ([istarget powerpc*-*-*]
 		 && ![istarget powerpc-*-linux*paired*])
+			 || [istarget kvx-*-*]
 	     || [is-effective-target arm_neon]
 	     || ([istarget mips*-*-*]
 		 && [et-is-effective-target mips_msa])
@@ -3274,6 +3275,7 @@ proc check_effective_target_vect_floatuint_cvt { } {
     return [check_cached_effective_target_indexed vect_floatuint_cvt {
       expr { ([istarget powerpc*-*-*]
 	      && ![istarget powerpc-*-linux*paired*])
+      || [istarget kvx-*-*]
 	    || [is-effective-target arm_neon]
 	    || ([istarget mips*-*-*]
 		&& [et-is-effective-target mips_msa])
@@ -5526,7 +5528,9 @@ proc check_effective_target_vect_shift { } {
       expr {([istarget powerpc*-*-*]
 	      && ![istarget powerpc-*-linux*paired*])
 	     || [istarget ia64-*-*]
-	     || [istarget i?86-*-*] || [istarget x86_64-*-*] || [istarget kvx-*-*]
+	     || [istarget i?86-*-*]
+	     || [istarget x86_64-*-*]
+	     || [istarget kvx-*-*]
 	     || [istarget aarch64*-*-*]
 	     || [is-effective-target arm_neon]
 	     || ([istarget mips*-*-*]
@@ -5601,6 +5605,7 @@ proc check_effective_target_vect_long { } {
               && [check_effective_target_ilp32])
 	 || [is-effective-target arm_neon]
 	 || ([istarget sparc*-*-*] && [check_effective_target_ilp32])
+	 || [istarget kvx-*-*] 
 	 || [istarget aarch64*-*-*]
 	 || ([istarget mips*-*-*]
 	      && [et-is-effective-target mips_msa])
@@ -5629,6 +5634,7 @@ proc check_effective_target_vect_float { } {
 	     || [istarget mips-sde-elf]
 	     || [istarget mipsisa64*-*-*]
 	     || [istarget ia64-*-*]
+	     || [istarget kvx-*-*] 
 	     || [istarget aarch64*-*-*]
 	     || ([istarget mips*-*-*]
 		 && [et-is-effective-target mips_msa])
@@ -5659,6 +5665,7 @@ proc check_effective_target_vect_double { } {
 		  #endif
 		}])
 	     || [istarget aarch64*-*-*]
+			 || [istarget kvx-*-*]
 	     || [istarget spu-*-*]
 	     || ([istarget powerpc*-*-*] && [check_vsx_hw_available])
 	     || ([istarget mips*-*-*]
@@ -5683,6 +5690,7 @@ proc check_effective_target_vect_double_cond_arith { } {
 proc check_effective_target_vect_long_long { } {
     return [check_cached_effective_target_indexed vect_long_long {
       expr { [istarget i?86-*-*] || [istarget x86_64-*-*]
+			 || [istarget kvx-*-*]
 	     || ([istarget mips*-*-*]
 		 && [et-is-effective-target mips_msa])
 	     || ([istarget s390*-*-*]
@@ -6218,8 +6226,8 @@ proc check_effective_target_vect_aligned_arrays { } {
     if { (([istarget i?86-*-*] || [istarget x86_64-*-*])
 	  && !([is-effective-target ia32]
 	       || ([check_avx_available] && ![check_prefer_avx128])))
-	 || [istarget spu-*-*]
-         || [istarget kvx-*-*]  } {
+	 || [istarget kvx-*-*]
+	 || [istarget spu-*-*]  } {
 	set et_vect_aligned_arrays 1
     }
 
@@ -6373,6 +6381,7 @@ proc check_effective_target_vect_condition { } {
       expr { [istarget aarch64*-*-*]
 	     || [istarget powerpc*-*-*]
 	     || [istarget ia64-*-*]
+	     || [istarget kvx-*-*] 
 	     || [istarget i?86-*-*] || [istarget x86_64-*-*]
 	     || [istarget spu-*-*]
 	     || [istarget kvx-*-*]
@@ -6391,6 +6400,7 @@ proc check_effective_target_vect_condition { } {
 proc check_effective_target_vect_cond_mixed { } {
     return [check_cached_effective_target_indexed vect_cond_mixed {
       expr { [istarget i?86-*-*] || [istarget x86_64-*-*]
+			 || [istarget kvx-*-*]
 	     || [istarget aarch64*-*-*]
 	     || [istarget powerpc*-*-*] 
 	     || ([istarget mips*-*-*]
@@ -6424,6 +6434,7 @@ proc check_effective_target_vect_short_mult { } {
 	     || [istarget spu-*-*]
 	     || [istarget i?86-*-*] || [istarget x86_64-*-*]
 	     || [istarget powerpc*-*-*]
+	     || [istarget kvx-*-*] 
 	     || [istarget aarch64*-*-*]
 	     || [check_effective_target_arm32]
 	     || ([istarget mips*-*-*]
@@ -6440,7 +6451,9 @@ proc check_effective_target_vect_int_mult { } {
     return [check_cached_effective_target_indexed vect_int_mult {
       expr { ([istarget powerpc*-*-*] && ![istarget powerpc-*-linux*paired*])
 	     || [istarget spu-*-*]
-	     || [istarget i?86-*-*] || [istarget x86_64-*-*] || [istarget kvx-*-*]
+	     || [istarget i?86-*-*]
+	     || [istarget x86_64-*-*]
+	     || [istarget kvx-*-*]
 	     || [istarget ia64-*-*]
 	     || [istarget aarch64*-*-*]
 	     || ([istarget mips*-*-*]
